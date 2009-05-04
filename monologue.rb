@@ -23,5 +23,13 @@ class Post < ActiveRecord::Base
 end
 
 get '/' do
+  @posts = Post.find(:all)
   haml :index
+end
+
+post '/new' do
+  @post = Post.new(:content => params[:content])
+  if @post.save
+    redirect '/'
+  end
 end

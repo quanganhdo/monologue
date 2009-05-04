@@ -6,20 +6,20 @@
     %link{:rel => 'stylesheet', :type => 'text/css', :media => 'screen', :href => 'css/style.css'}
     
   %body
-    %div#wrapper
+    #wrapper
       %h1 
         %a{:href => '/'} monologue
         
-      %div#postbox
+      #postbox
         %form{:method => 'POST', :action => '/new'}
-          %label{:for => 'content'} Lorem ipsum dolor sit amet
+          %label{:for => 'content'} What have you done?
           %textarea{:name => 'content', :id => 'content', :rows => 3, :cols => 60}
           %br
           %input{:type => 'submit', :id => 'submit', :value => 'Post it'}
           
-      %div#main= yield
+      #main= yield
       
-      %div#sidebar
+      #sidebar
         %ul
           %li.credits
             %p

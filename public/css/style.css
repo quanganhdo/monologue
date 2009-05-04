@@ -123,7 +123,6 @@ h1 a {
 #main ul {
 	list-style: none;
 	margin-top: 16px;
-	margin-left: 70px;
 }
 #main h2 {
 	margin-top: 4px;
@@ -276,7 +275,6 @@ h2 .rss {
 #main .post ul {
 	list-style: none;
 	margin-top: 16px;
-	margin-left: 70px;
 }
 #main ul ul,
 #main .post ul {
