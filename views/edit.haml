@@ -12,7 +12,7 @@
         
       #postbox
         %form{:method => 'POST', :action => "/edit/#{@post.id}"}
-          %label{:for => 'content'}= "What did you do on #{nice_time @post.created_at}? (That's #{days_ago @post.created_at, true} ago)"
+          %label{:for => 'content'}== What did you do on #{nice_time @post.created_at}? (That's #{days_ago @post.created_at, true} ago)
           %textarea{:name => 'content', :id => 'content', :rows => 3, :cols => 60}= h @post.content
           %br
           %input{:type => 'submit', :id => 'submit', :value => 'Save'}

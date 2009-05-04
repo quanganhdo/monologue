@@ -12,6 +12,7 @@
         
       #postbox
         %form{:method => 'POST', :action => '/new'}
+          %span#count 140
           %label{:for => 'content'} What have you done today?
           %textarea{:name => 'content', :id => 'content', :rows => 3, :cols => 60}
           %br
