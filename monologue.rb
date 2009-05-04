@@ -19,15 +19,20 @@ configure do
 end
 
 class Post < ActiveRecord::Base
-  # nothing to see here
+  validates_presence_of :content
 end
 
 get '/' do
-  haml :index, :layout => false
+  @last_post = Post.find(:first, :order => 'created_at DESC')
+  if days_ago(@last_post.created_at) >= 1
+    haml :index, :layout => false
+  else
+    redirect '/all'
+  end
 end
 
 get '/all' do
-  @posts = Post.find(:all)
+  @posts = Post.find(:all, :order => 'created_at DESC')
   haml :all
 end
 
@@ -39,6 +44,13 @@ end
 post '/new' do
   @post = Post.new(:content => params[:content])
   if @post.save
+    redirect '/all'
+  else
     redirect '/'
   end
+end
+
+def days_ago timestamp
+  seconds = (Time.now - timestamp).abs
+  seconds / 60 / 60 / 24
 end
