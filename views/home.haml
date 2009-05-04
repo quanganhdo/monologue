@@ -1,0 +1,15 @@
+%h2 What you've done in the last 7 days
+
+%ul 
+  - for post in @posts
+    %li
+      %h4
+        %span.meta
+          = "posted on #{nice_time post.created_at, true}"
+          &middot;
+          %a{:href => "/#{post.id}"} # 
+          &middot;
+          %a{:href => "/edit/#{post.id}"} e
+      .postcontent
+        %p= post.content
+      .bottom_of_entry

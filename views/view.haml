@@ -1,4 +1,9 @@
-%h2= @post.created_at.strftime('%A, %B %d %Y at %I:%M%p')
+%h2
+  = nice_time @post.created_at
+  &middot;
+  %a{:href => "/#{@post.id}"} # 
+  &middot;
+  %a{:href => "/edit/#{@post.id}"} e
 %ul 
   %li
     %h4
