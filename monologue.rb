@@ -21,7 +21,7 @@ end
 
 # model
 class Post < ActiveRecord::Base
-  validates_presence_of :content
+  validates_length_of :content, :in => 1..140
 end
 
 # entry point
