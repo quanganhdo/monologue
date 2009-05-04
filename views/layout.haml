@@ -1,0 +1,17 @@
+!!! 1.1
+%html
+  %head
+    %meta{'http-equiv' => 'Content-Type', :content => 'text/html; charset=utf-8'}
+    %title monologue
+    %link{:rel => 'stylesheet', :type => 'text/css', :media => 'screen', :href => 'css/style.css'}
+  %body
+    %div#wrapper
+      %h1 
+        %a{:href => '/'} monologue
+      %div#main= yield
+      %div#sidebar
+        %ul
+          %li.credits
+            %p
+              Prologue theme by 
+              %a{:href => 'http://automattic.com/'} Automattic
