@@ -48,7 +48,7 @@ end
 post '/new' do
   @post = Post.new(:content => params[:content])
   if @post.save
-    redirect '/all'
+    redirect '/home'
   else
     redirect '/'
   end
