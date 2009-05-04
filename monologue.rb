@@ -25,20 +25,24 @@ end
 get '/' do
   @last_post = Post.find(:first, :order => 'created_at DESC')
   if days_ago(@last_post.created_at) >= 1
-    haml :index, :layout => false
+    haml :edit, :layout => false
   else
-    redirect '/all'
+    redirect '/home'
   end
 end
 
-get '/all' do
-  @posts = Post.find(:all, :order => 'created_at DESC')
-  haml :all
+get '/home' do
+  @posts = Post.find(:all, :limit => 7, :order => 'created_at DESC')
+  haml :home
 end
 
 get '/:id' do
-  @post = Post.find(params[:id])
-  haml :view
+  begin
+    @post = Post.find(params[:id])
+    haml :view
+  rescue ActiveRecord::RecordNotFound
+    redirect '/'
+  end  
 end
 
 post '/new' do
