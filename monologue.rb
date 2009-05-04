@@ -8,7 +8,7 @@ configure do
   
   begin
     ActiveRecord::Schema.define do
-      create_table :entries do |t|
+      create_table :posts do |t|
         t.string :content, :null => false, :limit => 140
         t.timestamps
       end
@@ -18,7 +18,7 @@ configure do
   end
 end
 
-class Entry < ActiveRecord::Base
+class Post < ActiveRecord::Base
   # nothing to see here
 end
 

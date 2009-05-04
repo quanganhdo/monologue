@@ -4,11 +4,21 @@
     %meta{'http-equiv' => 'Content-Type', :content => 'text/html; charset=utf-8'}
     %title monologue
     %link{:rel => 'stylesheet', :type => 'text/css', :media => 'screen', :href => 'css/style.css'}
+    
   %body
     %div#wrapper
       %h1 
         %a{:href => '/'} monologue
+        
+      %div#postbox
+        %form{:method => 'POST', :action => '/new'}
+          %label{:for => 'content'} Lorem ipsum dolor sit amet
+          %textarea{:name => 'content', :id => 'content', :rows => 3, :cols => 60}
+          %br
+          %input{:type => 'submit', :id => 'submit', :value => 'Post it'}
+          
       %div#main= yield
+      
       %div#sidebar
         %ul
           %li.credits
