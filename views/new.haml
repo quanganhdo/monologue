@@ -8,7 +8,7 @@
   %body
     #wrapper
       %h1 
-        %a{:href => '/'} monologue
+        %a{:href => '/', :title => 'Back to homepage'} monologue
         
       #postbox
         %form{:method => 'POST', :action => '/new'}
@@ -16,4 +16,4 @@
           %textarea{:name => 'content', :id => 'content', :rows => 3, :cols => 60}
           %br
           %input{:type => 'submit', :id => 'submit', :value => 'Submit'}
-          %a{:href => '/home'} or view all entries
+          %a{:href => '/home', :title => 'View all entries'} or view all entries

@@ -89,10 +89,12 @@ def days_ago timestamp, verbose = false
 end
 
 helpers do
+  # any questions?
   def nice_time timestamp, exact = false
     exact ? timestamp.strftime('%A, %B %d %Y at %I:%M%p') : timestamp.strftime('%A, %B %d %Y')
   end
   
+  # escape html
   def h text
     html_escape = {'&' => '&amp;', '<' => '&lt;', '>' => '&gt;', '"' => '&quot;', "'" => '&#039;'}
     text.to_s.gsub(/[\"><&]/) { |s| html_escape[s] }

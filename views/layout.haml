@@ -8,7 +8,7 @@
   %body
     #wrapper
       %h1 
-        %a{:href => '/'} monologue
+        %a{:href => '/', :title => 'Back to homepage'} monologue
           
       #main= yield
       
@@ -17,4 +17,4 @@
           %li.credits
             %p
               Prologue theme by 
-              %a{:href => 'http://automattic.com/'} Automattic
+              %a{:href => 'http://automattic.com/', :title => 'Automattic'} Automattic

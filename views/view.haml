@@ -1,9 +1,9 @@
 %h2
   = nice_time @post.created_at
   &middot;
-  %a{:href => "/#{@post.id}"} # 
+  %a{:href => "/#{@post.id}", :title => 'Permalink to this entry'} # 
   &middot;
-  %a{:href => "/edit/#{@post.id}"} e
+  %a{:href => "/edit/#{@post.id}", :title => 'Edit this entry'} e
 %ul 
   %li
     %h4

@@ -8,7 +8,7 @@
   %body
     #wrapper
       %h1 
-        %a{:href => '/'} monologue
+        %a{:href => '/', :title => 'Back to homepage'} monologue
         
       #postbox
         %form{:method => 'POST', :action => "/edit/#{@post.id}"}
@@ -16,4 +16,4 @@
           %textarea{:name => 'content', :id => 'content', :rows => 3, :cols => 60}= h @post.content
           %br
           %input{:type => 'submit', :id => 'submit', :value => 'Save'}
-          %a{:href => @back} or cancel
+          %a{:href => @back, :title => 'Cancel editing'} or cancel editing
