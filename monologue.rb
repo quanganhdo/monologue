@@ -23,8 +23,12 @@ class Post < ActiveRecord::Base
 end
 
 get '/' do
+  haml :index, :layout => false
+end
+
+get '/all' do
   @posts = Post.find(:all)
-  haml :index
+  haml :all
 end
 
 get '/:id' do

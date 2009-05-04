@@ -1,12 +1,19 @@
-%h2 Latest Updates
-
-%ul 
-  - for post in @posts
-    %li
-      %h4
-        %span.meta
-          = "Posted on #{post.created_at.strftime('%A, %B %d %Y at %I:%M%p')}"
-          %a{:href => "/#{post.id}"} #
-      .postcontent
-        %p= post.content
-      .bottom_of_entry
+!!! 1.1
+%html
+  %head
+    %meta{'http-equiv' => 'Content-Type', :content => 'text/html; charset=utf-8'}
+    %title monologue
+    %link{:rel => 'stylesheet', :type => 'text/css', :media => 'screen', :href => 'css/style.css'}
+    
+  %body
+    #wrapper
+      %h1 
+        %a{:href => '/'} monologue
+        
+      #postbox
+        %form{:method => 'POST', :action => '/new'}
+          %label{:for => 'content'} What have you done today?
+          %textarea{:name => 'content', :id => 'content', :rows => 3, :cols => 60}
+          %br
+          %input{:type => 'submit', :id => 'submit', :value => 'Post it'}
+        
