@@ -1,0 +1,7 @@
+%h2= @post.created_at.strftime('%A, %B %d %Y at %I:%M%p')
+%ul 
+  %li
+    %h4
+    .postcontent
+      %p= @post.content
+    .bottom_of_entry

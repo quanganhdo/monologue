@@ -27,6 +27,11 @@ get '/' do
   haml :index
 end
 
+get '/:id' do
+  @post = Post.find(params[:id])
+  haml :view
+end
+
 post '/new' do
   @post = Post.new(:content => params[:content])
   if @post.save
