@@ -114,15 +114,17 @@ h1 a {
 #postbox div#emopicker {
 	background-color: #FFFFFF;
 	height: 56px !important;
+	position: relative;
 }
 #postbox div#emopicker img {
-	cursor: hand;
-	padding: 2px;
-	margin-left: 28px;
-	margin-right: 28px;
+	cursor: pointer;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	padding-left: 28px;
+	padding-right: 28px;
 }
 #postbox div#emopicker img.selected {
-	background-color: #6688AA;
+	border: 2px solid #6688AA;
 }
 #postbox label {
 	color: #333;

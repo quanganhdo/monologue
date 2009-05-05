@@ -6,6 +6,7 @@
     %link{:rel => 'stylesheet', :type => 'text/css', :media => 'screen', :href => 'css/style.css'}
     %script{:type => 'text/javascript', :src => 'js/jquery-1.3.2.min.js'}
     %script{:type => 'text/javascript', :src => 'js/counter.js'}
+    %script{:type => 'text/javascript', :src => 'js/emo.js'}
     
   %body
     #wrapper
@@ -23,7 +24,9 @@
           %label How do they make you feel?
           #emopicker
             - for emo in EMO
-              %img{:alt => emo, :src => "/img/emo/#{emo}.png"}
+              %img.emo{:alt => emo, :src => "/img/emo/#{emo}.png", :class => emo.eql?('misdoubt') ? 'selected' : '', :id => emo}
+          
+          %input{:type => 'hidden', :name => 'emo', :id => 'emo', :value => 'misdoubt'}
           
           %input{:type => 'submit', :id => 'submit', :value => 'Submit'}
           %a{:href => '/home', :title => 'View all entries'} or view all entries
