@@ -3,7 +3,7 @@ require 'sinatra'
 require 'active_record'
 
 # config
-DEBUG = true
+DEBUG = false
 HTML_ESCAPE = {'&' => '&amp;', '<' => '&lt;', '>' => '&gt;', '"' => '&quot;', "'" => '&#039;'}
 EMO = %w{cry misdoubt rockn_roll smile unhappy wicked};
 DEFAULT_EMO = 'misdoubt'
@@ -55,7 +55,7 @@ end
     if !@last_post || days_ago(@last_post.created_at) >= 1 || DEBUG
       haml :new, :layout => false
     else
-      redirect '/home'
+      haml :already, :layout => false
     end
   end
 end
