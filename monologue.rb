@@ -121,8 +121,8 @@ end
 # most recent 7 posts only
 get '/:emo/days' do
   @posts = Post.find(:all, :limit => 7, :conditions => "emo = '#{params[:emo]}'", :order => 'created_at DESC')
-  @emo = params[:emo]
-  haml :emo
+  @listing = "Your most recent 7 <em>#{params[:emo].gsub(/_/, "'")}</em> days"
+  haml :listing
 end
 
 # browse by week
