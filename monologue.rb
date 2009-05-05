@@ -7,7 +7,7 @@ mime :json, "application/json"
 
 # prepare for battle
 configure do 
-  DEBUG = ENV['RACK_ENV'].eql?('development') ? true : false
+  DEBUG = development? ? true : false
   
   EMO = %w{cry misdoubt rockn_roll smile unhappy wicked}
   DEFAULT_EMO = 'misdoubt'
@@ -15,10 +15,11 @@ configure do
   SECRET = 'whatever happened, happened'
   
   db_config = YAML.load(File.read('config/database.yml'))
-  ActiveRecord::Base.establish_connection db_config[ENV['RACK_ENV']]
+  CONNECTION = development? ? db_config['development'] : db_config['production']
+  ActiveRecord::Base.establish_connection CONNECTION
   
   acc_config = YAML.load(File.read('config/account.yml'))
-  ACCOUNT = acc_config[ENV['RACK_ENV']]
+  ACCOUNT = development? ? acc_config['development'] : acc_config['production']
   
   begin
     ActiveRecord::Schema.define do
@@ -137,9 +138,11 @@ end
 
 # browse by week
 get '/:no/weeks?/ago' do
-  start_timestamp = Time.now - params[:no].to_i * 60 * 60 * 24 * 7;
-  end_timestamp = start_timestamp + 60 * 60 * 24 * 7;
-  @posts = Post.find(:all, :limit => 7, :conditions => ['created_at BETWEEN ? AND ?', start_timestamp, end_timestamp], :order => 'created_at DESC').reverse
+  start_timestamp = Time.now - params[:no].to_i * 60 * 60 * 24 * 7
+  end_timestamp = start_timestamp + 60 * 60 * 24 * 7
+  p start_timestamp
+  p end_timestamp
+  @posts = Post.find(:all, :limit => 7, :conditions => {:created_at => start_timestamp..end_timestamp}, :order => 'created_at DESC').reverse
   @listing = "What you did #{params[:no].to_i > 1 ? "#{params[:no]} weeks ago" : 'last week'}"
   haml :listing
 end
@@ -150,7 +153,6 @@ def days_ago timestamp, verbose = false
   days = (seconds / 60 / 60 / 24).round
   verbose ? "#{days} day#{days > 1 ? 's' : ''}" : days
 end
-
 helpers do
   # basic auth
   def protected!
