@@ -2,6 +2,9 @@ require 'rubygems'
 require 'sinatra'
 require 'active_record'
 
+# config
+mime :json, "application/json"
+
 # create db if needed
 configure do 
   dbconfig = YAML.load(File.read('config/database.yml'))
@@ -78,6 +81,16 @@ end
 post '/edit/:id' do
   if Post.update(params[:id], :content => params[:content])
     redirect "/#{params[:id]}"
+  end
+end
+
+# delete post
+delete '/delete' do
+  content_type :json
+  if Post.delete(params[:id])
+    {:result => 'success'}.to_json
+  else
+    {:result => 'failed'}.to_json
   end
 end
 

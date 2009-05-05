@@ -1,15 +1,22 @@
+%script{:type => 'text/javascript', :src => 'js/delete.js'}
+
 %h2 What you've done in the last 7 days
 
 %ul 
   - for post in @posts
-    %li
+    %li[post]
       %h4
         %span.meta
           == Posted on #{nice_time post.created_at, true}
           &middot;
+          
           %a{:href => "/#{post.id}", :title => 'Permalink to this entry'} # 
           &middot;
+
           %a{:href => "/edit/#{post.id}", :title => 'Edit this entry'} e
+          &middot;
+          
+          %a[post, :delete]{:href => '#', :title => 'Delete this post'} &times;
       .postcontent
         %p= post.content
       .bottom_of_entry
