@@ -17,4 +17,5 @@ function updateCounter() {
 		$('#count').removeClass().addClass('normal');
 		$('#submit').removeAttr('disabled');
 	}
+	if (remain == 140) $('#submit').attr('disabled', true);
 }
