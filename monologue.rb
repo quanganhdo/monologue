@@ -2,20 +2,22 @@ require 'rubygems'
 require 'sinatra'
 require 'active_record'
 
-# config
-unless defined? DEBUG
-  DEBUG = true
+mime :json, "application/json"
+
+# prepare for battle
+configure do 
+  DEBUG = development? ? true : false
+  
   HTML_ESCAPE = {'&' => '&amp;', '<' => '&lt;', '>' => '&gt;', '"' => '&quot;', "'" => '&#039;'}
   EMO = %w{cry misdoubt rockn_roll smile unhappy wicked}
   DEFAULT_EMO = 'misdoubt'
-end
-
-mime :json, "application/json"
-
-# create db if needed
-configure do 
-  dbconfig = YAML.load(File.read('config/database.yml'))
-  ActiveRecord::Base.establish_connection dbconfig['development']
+  
+  db_config = YAML.load(File.read('config/database.yml'))
+  CONNECTION = development? ? db_config['development'] : db_config['production']
+  ActiveRecord::Base.establish_connection CONNECTION
+  
+  acc_config = YAML.load(File.read('config/account.yml'))
+  ACCOUNT = development? ? acc_config['development'] : acc_config['production']
   
   begin
     ActiveRecord::Schema.define do
@@ -47,17 +49,23 @@ class Post < ActiveRecord::Base
   end
 end
 
+# lock everything
+before do
+  protected!
+end
+
 # entry point
 # redirect to post listing if post of the day has been made
 # otherwise, show new post form
 ['/', '/new'].each do |path|
   get path do
     @last_post = Post.find(:first, :order => 'created_at DESC')
-    p DEBUG
     if !@last_post || days_ago(@last_post.created_at) >= 1 || DEBUG
       haml :new, :layout => false
-    else
+    elsif request.referer != '/'
       haml :already, :layout => false
+    else
+      redirect '/home'
     end
   end
 end
@@ -135,15 +143,26 @@ get '/:no/weeks?/ago' do
   haml :listing
 end
 
-
-# both helper and processing helper
-def days_ago timestamp, verbose = false
-  seconds = (Time.now - timestamp).abs
-  days = (seconds / 60 / 60 / 24).round
-  verbose ? "#{days} day#{days > 1 ? 's' : ''}" : days
-end
-
 helpers do
+  # basic auth
+  def protected!
+    response['WWW-Authenticate'] = %(Basic realm="Identify yourself") and \
+    throw(:halt, [401, "Not authorized\n"]) and \
+    return unless authorized?
+  end
+
+  def authorized?
+    @auth ||=  Rack::Auth::Basic::Request.new(request.env)
+    @auth.provided? && @auth.basic? && @auth.credentials && @auth.credentials == [ACCOUNT['username'], ACCOUNT['password']]
+  end
+
+  # when did you make your last post?
+  def days_ago timestamp, verbose = false
+    seconds = (Time.now - timestamp).abs
+    days = (seconds / 60 / 60 / 24).round
+    verbose ? "#{days} day#{days > 1 ? 's' : ''}" : days
+  end
+  
   # any questions?
   def nice_time timestamp, exact = false
     exact ? timestamp.strftime('%A, %B %d %Y at %I:%M%p') : timestamp.strftime('%A, %B %d %Y')

@@ -1,3 +1,6 @@
 development:
     adapter: sqlite3
     database: monologue.db
+production:
+    adapter: sqlite3
+    database: monologue.db
