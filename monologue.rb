@@ -9,7 +9,6 @@ mime :json, "application/json"
 configure do 
   DEBUG = development? ? true : false
   
-  HTML_ESCAPE = {'&' => '&amp;', '<' => '&lt;', '>' => '&gt;', '"' => '&quot;', "'" => '&#039;'}
   EMO = %w{cry misdoubt rockn_roll smile unhappy wicked}
   DEFAULT_EMO = 'misdoubt'
   
@@ -172,8 +171,6 @@ helpers do
   end
   
   # escape html
-  def h text    
-    text.to_s.gsub(/[\"><&]/) { |s| HTML_ESCAPE[s] }
-    text
-  end
+  include Rack::Utils
+  alias_method :h, :escape_html
 end
