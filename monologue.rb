@@ -62,6 +62,7 @@ end
 ['/', '/new'].each do |path|
   get path do
     @last_post = Post.find(:first, :order => 'created_at DESC')
+    
     if !@last_post || days_ago(@last_post.created_at) >= 1 || DEBUG
       haml :new, :layout => false
     elsif request.referer != '/'
@@ -75,6 +76,7 @@ end
 # create a new post
 post '/new' do
   @post = Post.new(:content => params[:content].gsub(/\n/, ' '), :emo => params[:emo])
+  
   if @post.save
     redirect '/home'
   else
@@ -87,11 +89,14 @@ end
 get '/home' do
   @posts = Post.find(:all, :limit => 7, :order => 'created_at DESC')
   @listing = 'Latest Updates'
+  
   haml :listing
 end
 
 # permalink to specific post
 get '/:id' do
+  pass unless params[:id] =~ /^[0-9]*$/
+  
   begin
     @post = Post.find(params[:id])
     haml :view
@@ -121,6 +126,7 @@ end
 # delete post
 delete '/delete' do
   content_type :json
+  
   if Post.delete(params[:id])
     {:result => 'success'}.to_json
   else
@@ -133,6 +139,7 @@ end
 get '/:emo/days' do
   @posts = Post.find(:all, :limit => 7, :conditions => "emo = '#{params[:emo]}'", :order => 'created_at DESC')
   @listing = "Your most recent 7 <em>#{params[:emo].gsub(/_/, "'")}</em> days"
+  
   haml :listing
 end
 
@@ -140,10 +147,9 @@ end
 get '/:no/weeks?/ago' do
   start_timestamp = Time.now - params[:no].to_i * 60 * 60 * 24 * 7
   end_timestamp = start_timestamp + 60 * 60 * 24 * 7
-  p start_timestamp
-  p end_timestamp
   @posts = Post.find(:all, :limit => 7, :conditions => {:created_at => start_timestamp..end_timestamp}, :order => 'created_at DESC').reverse
   @listing = "What you did #{params[:no].to_i > 1 ? "#{params[:no]} weeks ago" : 'last week'}"
+  
   haml :listing
 end
 
@@ -153,6 +159,7 @@ def days_ago timestamp, verbose = false
   days = (seconds / 60 / 60 / 24).round
   verbose ? "#{days} day#{days > 1 ? 's' : ''}" : days
 end
+
 helpers do
   # basic auth
   def protected!
