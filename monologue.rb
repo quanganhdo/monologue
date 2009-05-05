@@ -7,7 +7,7 @@ mime :json, "application/json"
 
 # prepare for battle
 configure do 
-  DEBUG = development? ? true : false
+  DEBUG = ENV['RACK_ENV'].eql?('development') ? true : false
   
   EMO = %w{cry misdoubt rockn_roll smile unhappy wicked}
   DEFAULT_EMO = 'misdoubt'
@@ -15,11 +15,10 @@ configure do
   SECRET = 'whatever happened, happened'
   
   db_config = YAML.load(File.read('config/database.yml'))
-  CONNECTION = development? ? db_config['development'] : db_config['production']
-  ActiveRecord::Base.establish_connection CONNECTION
+  ActiveRecord::Base.establish_connection db_config[ENV['RACK_ENV']]
   
   acc_config = YAML.load(File.read('config/account.yml'))
-  ACCOUNT = development? ? acc_config['development'] : acc_config['production']
+  ACCOUNT = acc_config[ENV['RACK_ENV']]
   
   begin
     ActiveRecord::Schema.define do
