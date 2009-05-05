@@ -24,7 +24,7 @@
           %label How do they make you feel?
           #emopicker
             - for emo in EMO
-              %img.emo{:alt => emo, :src => "/img/emo/#{emo}.png", :class => emo.eql?(DEFAULT_EMO) ? 'selected' : '', :id => emo}
+              %img.emo{:alt => emo, :src => "/img/emo/#{emo}.png", :class => emo.eql?(@post.emo) ? 'selected' : '', :id => emo}
           
           %input{:type => 'hidden', :name => 'emo', :id => 'emo', :value => DEFAULT_EMO}
           

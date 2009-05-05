@@ -97,7 +97,7 @@ end
 
 # edit existing post
 post '/edit/:id' do
-  if Post.update(params[:id], :content => params[:content])
+  if Post.update(params[:id], :content => params[:content], :emo => params[:emo])
     redirect "/#{params[:id]}"
   end
 end
