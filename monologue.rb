@@ -41,7 +41,7 @@ end
 
 # create a new post
 post '/new' do
-  @post = Post.new(:content => params[:content])
+  @post = Post.new(:content => params[:content].gsub(/\n/, ' '))
   if @post.save
     redirect '/home'
   else
