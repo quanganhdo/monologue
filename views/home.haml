@@ -6,6 +6,7 @@
 %ul 
   - for post in @posts
     %li[post]
+      %img.emo2{:width => 48, :height => 48, :alt => post.emo, :src => "/img/emo/#{post.emo}.png"}
       %h4
         %span.meta
           == Posted on #{nice_time post.created_at, true}

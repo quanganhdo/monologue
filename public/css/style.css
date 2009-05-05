@@ -169,7 +169,7 @@ h3 {
 	color: #777;
 	font-weight: bold;
 }
-#postbox img.avatar {
+#postbox img.emo2 {
 	float: left;
 	margin-top: 19px;
 	margin-right: 13px;
@@ -178,7 +178,7 @@ h3 {
 	border: 1px solid #c6d9e9;
 	background: #fff;	
 }
-#sidebar ul li#authors ul li img.avatar {
+#sidebar ul li#authors ul li img.emo2 {
 	clear: both;
 	margin: 0 3px 0 0;
 	padding: 3px;
@@ -186,7 +186,7 @@ h3 {
 #sidebar ul li#authors, #sidebar ul li#authors ul li {
 	border: none;
 }
-img.avatar {
+img.emo2 {
 	float: left;
 	margin-right: 12px;
 	margin-left: -70px;
@@ -230,7 +230,7 @@ h2 img {
 #main ul#comments {
 	margin-left: 52px;
 }
-#main ul#comments img.avatar {
+#main ul#comments img.emo2 {
 	margin-left: -52px;
 	margin-right: 12px;
 }
