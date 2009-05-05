@@ -6,6 +6,7 @@ require 'active_record'
 DEBUG_MODE = 1
 HTML_ESCAPE = {'&' => '&amp;', '<' => '&lt;', '>' => '&gt;', '"' => '&quot;', "'" => '&#039;'}
 EMO = %w{cry misdoubt rockn_roll smile unhappy wicked};
+DEFAULT_EMO = 'misdoubt'
 
 mime :json, "application/json"
 
@@ -18,6 +19,7 @@ configure do
     ActiveRecord::Schema.define do
       create_table :posts do |t|
         t.string :content, :null => false, :limit => 140
+        t.string :emo, :null => false, :default => DEFAULT_EMO
         t.timestamps
       end
     end
@@ -29,6 +31,7 @@ end
 # model
 class Post < ActiveRecord::Base
   validates_length_of :content, :in => 1..140
+  validates_inclusion_of :emo, :in => EMO
   validate :valid_time?
   
   private
@@ -56,7 +59,7 @@ end
 
 # create a new post
 post '/new' do
-  @post = Post.new(:content => params[:content].gsub(/\n/, ' '))
+  @post = Post.new(:content => params[:content].gsub(/\n/, ' '), :emo => params[:emo])
   if @post.save
     redirect '/home'
   else
