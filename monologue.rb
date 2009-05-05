@@ -147,7 +147,7 @@ end
 get '/:no/weeks?/ago' do
   start_timestamp = Time.now - params[:no].to_i * 60 * 60 * 24 * 7
   end_timestamp = start_timestamp + 60 * 60 * 24 * 7
-  @posts = Post.find(:all, :limit => 7, :conditions => {:created_at => start_timestamp..end_timestamp}, :order => 'created_at DESC').reverse
+  @posts = Post.find(:all, :conditions => {:created_at => start_timestamp..end_timestamp}, :order => 'created_at DESC').reverse
   @listing = "What you did #{params[:no].to_i > 1 ? "#{params[:no]} weeks ago" : 'last week'}"
   
   haml :listing
@@ -181,4 +181,35 @@ helpers do
   # escape html
   include Rack::Utils
   alias_method :h, :escape_html
+end
+
+# for development purpose only
+# please keep out
+get '/defcon/1' do
+  status 404 unless development?
+  
+  Post.delete_all
+  
+  "It's Global Thermonuclear War, and nobody wins. But maybe - just maybe - you can lose the least. (http://www.introversion.co.uk/defcon/)"
+end
+
+get '/viral/outbreak' do
+  status 404 unless development?
+  
+  posts = []
+  buckets = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.".split('. ')
+  timemachine = Time.now
+  
+  1.upto 100 do |i|
+    posts << {
+      :content => buckets[rand(buckets.length)],
+      :emo => EMO[rand(EMO.length)],
+      :created_at => timemachine,
+      :updated_at => timemachine
+    }
+    timemachine -= (60 * 60 * 24 * rand()).round
+  end
+  Post.create posts
+  
+  "It's fast, it's furious and only the flattest will survive! (http://www.introversion.co.uk/multiwinia/)"
 end
