@@ -123,6 +123,13 @@ get '/:emo/days' do
   haml :emo
 end
 
+# browse by week
+['/:no/week/ago', '/:no/weeks/ago'].each do |path|
+  get '/path' do
+    
+  end
+end
+
 # both helper and processing helper
 def days_ago timestamp, verbose = false
   seconds = (Time.now - timestamp).abs
