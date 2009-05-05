@@ -1,9 +1,16 @@
+%script{:type => 'text/javascript', :src => '../js/delete.js'}
+
 %h2
   = nice_time @post.created_at
   &middot;
+
   %a{:href => "/#{@post.id}", :title => 'Permalink to this entry'} # 
   &middot;
+
   %a{:href => "/edit/#{@post.id}", :title => 'Edit this entry'} e
+  &middot;
+
+  %a[@post, :delete]{:href => '#', :title => 'Delete this entry'} &times;
 %ul 
   %li
     %h4

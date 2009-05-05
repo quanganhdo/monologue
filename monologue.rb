@@ -32,7 +32,7 @@ end
 # otherwise, show new post form
 get '/' do
   @last_post = Post.find(:first, :order => 'created_at DESC')
-  if days_ago(@last_post.created_at) >= 1
+  if !@last_post || days_ago(@last_post.created_at) >= 1
     haml :new, :layout => false
   else
     redirect '/home'
