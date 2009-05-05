@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'sinatra'
 require 'active_record'
+require 'logger'
 
 # config
 DEBUG = false
@@ -74,7 +75,8 @@ end
 # show 7 latest posts
 get '/home' do
   @posts = Post.find(:all, :limit => 7, :order => 'created_at DESC')
-  haml :home
+  @listing = 'Latest Updates'
+  haml :listing
 end
 
 # permalink to specific post
@@ -124,17 +126,24 @@ get '/:emo/days' do
 end
 
 # browse by week
-['/:no/week/ago', '/:no/weeks/ago'].each do |path|
-  get '/path' do
-    
-  end
+get '/:no/weeks?/ago' do
+  start_timestamp = Time.now - params[:no].to_i * 60 * 60 * 24 * 7;
+  end_timestamp = start_timestamp + 60 * 60 * 24 * 7;
+  @posts = Post.find(:all, :limit => 7, :conditions => ['created_at BETWEEN ? AND ?', start_timestamp, end_timestamp], :order => 'created_at DESC').reverse
+  @listing = "What you did #{params[:no]} week#{params[:no].to_i > 1 ? 's' : ''} ago"
+  haml :listing
 end
+
 
 # both helper and processing helper
 def days_ago timestamp, verbose = false
   seconds = (Time.now - timestamp).abs
   days = (seconds / 60 / 60 / 24).round
   verbose ? "#{days} day#{days > 1 ? 's' : ''}" : days
+end
+
+def to_sql timestamp
+  timestamp.strftime('%d-%m-%Y %H:%M:%S')
 end
 
 helpers do

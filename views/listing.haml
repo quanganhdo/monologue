@@ -1,15 +1,13 @@
 %script{:type => 'text/javascript', :src => '/js/humanmsg.js'}
 %script{:type => 'text/javascript', :src => '/js/delete.js'}
 
-%h2
-  Your most recent 7 
-  %em== #{@emo.gsub(/_/, "'")} 
-  days
+%h2= @listing
 
 %ul 
   - for post in @posts
     %li[post]
-      %img.emo2{:width => 48, :height => 48, :alt => post.emo, :src => "/img/emo/#{post.emo}.png"}
+      %a{:href => "/#{post.emo}/days", :title => "View your most recent 7 #{post.emo} days"}
+        %img.emo2{:width => 48, :height => 48, :alt => post.emo, :src => "/img/emo/#{post.emo}.png"}
       
       %h4
         %span.meta
