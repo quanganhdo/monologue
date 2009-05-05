@@ -5,13 +5,14 @@ $(function() {
 			
 			$.post('/delete', {id: id, _method: 'delete'}, function(data) {
 				if (data.result == 'success') {
+					humanMsg.displayMsg('Entry deleted successfully.');
 					if ($('.post').length > 0) { // home
 						$('#post_' + id).hide('slow');
 					} else { // view 
-						document.location.replace('/');
+						setTimeout("document.location.replace('/')", 2000);
 					}
 				} else {
-					alert('Oops... the system was unable to perform your operation. Please try again later.');
+					humanMsg.displayMsg('Oops... the system was unable to perform your operation. Please try again.');
 				}
 			}, 'json');
 		}
