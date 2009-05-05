@@ -145,6 +145,13 @@ get '/:no/weeks?/ago' do
   haml :listing
 end
 
+# when did you make your last post?
+def days_ago timestamp, verbose = false
+  seconds = (Time.now - timestamp).abs
+  days = (seconds / 60 / 60 / 24).round
+  verbose ? "#{days} day#{days > 1 ? 's' : ''}" : days
+end
+
 helpers do
   # basic auth
   def protected!
@@ -158,13 +165,6 @@ helpers do
     @auth.provided? && @auth.basic? && @auth.credentials && @auth.credentials[0] == ACCOUNT['username'] && Digest::MD5.hexdigest(SECRET + @auth.credentials[1]) == ACCOUNT['password']
   end
 
-  # when did you make your last post?
-  def days_ago timestamp, verbose = false
-    seconds = (Time.now - timestamp).abs
-    days = (seconds / 60 / 60 / 24).round
-    verbose ? "#{days} day#{days > 1 ? 's' : ''}" : days
-  end
-  
   # any questions?
   def nice_time timestamp, exact = false
     exact ? timestamp.strftime('%A, %B %d %Y at %I:%M%p') : timestamp.strftime('%A, %B %d %Y')
