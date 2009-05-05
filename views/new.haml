@@ -4,6 +4,8 @@
     %meta{'http-equiv' => 'Content-Type', :content => 'text/html; charset=utf-8'}
     %title monologue
     %link{:rel => 'stylesheet', :type => 'text/css', :media => 'screen', :href => 'css/style.css'}
+    %script{:type => 'text/javascript', :src => 'js/jquery-1.3.2.min.js'}
+    %script{:type => 'text/javascript', :src => 'js/counter.js'}
     
   %body
     #wrapper
@@ -12,7 +14,7 @@
         
       #postbox
         %form{:method => 'POST', :action => '/new'}
-          %span#count 140
+          %span#count.normal 140
           %label{:for => 'content'} What have you done today?
           %textarea{:name => 'content', :id => 'content', :rows => 3, :cols => 60}
           %br

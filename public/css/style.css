@@ -93,7 +93,15 @@ h1 a {
 	position: absolute;
 	right: 22px;
 	top: 16px;
+}
+#postbox span.normal {
 	color: #224466;
+}
+#postbox span.warning {
+	color: #5C0002;
+}
+#postbox span.err {
+	color: #D40D12;
 }
 #postbox textarea#content {
 	width: 678px;
