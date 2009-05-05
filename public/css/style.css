@@ -193,6 +193,10 @@ img.emo2 {
 	padding: 3px;
 	border: 1px solid #ddd;
 }
+img.nah {
+	margin-top: 10px;
+	margin-left: -5px;
+}
 #main ul li {
 	overflow: visible; 
 	margin-bottom: 1.5em;

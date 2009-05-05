@@ -5,7 +5,7 @@ require 'logger'
 
 # config
 unless defined? DEBUG
-  DEBUG = false
+  DEBUG = true
   HTML_ESCAPE = {'&' => '&amp;', '<' => '&lt;', '>' => '&gt;', '"' => '&quot;', "'" => '&#039;'}
   EMO = %w{cry misdoubt rockn_roll smile unhappy wicked};
   DEFAULT_EMO = 'misdoubt'

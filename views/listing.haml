@@ -3,6 +3,9 @@
 
 %h2= @listing
 
+- if @posts.empty?
+  %img{:src => '/img/generic/nah.png', :class => 'nah'}
+
 %ul 
   - for post in @posts
     %li[post]
