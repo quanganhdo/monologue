@@ -3,6 +3,7 @@ require 'sinatra'
 require 'active_record'
 
 # config
+DEBUG_MODE = 1
 mime :json, "application/json"
 
 # create db if needed
@@ -25,6 +26,17 @@ end
 # model
 class Post < ActiveRecord::Base
   validates_length_of :content, :in => 1..140
+  validate :valid_time?
+  
+  private
+  
+  def valid_time?
+    @last_post = Post.find(:first, :order => 'created_at DESC')
+    if @last_post && days_ago(@last_post.created_at) < 1 && !DEBUG_MODE
+      # this has nothing to do w/ content
+      errors.add :content
+    end
+  end
 end
 
 # entry point
@@ -32,7 +44,7 @@ end
 # otherwise, show new post form
 get '/' do
   @last_post = Post.find(:first, :order => 'created_at DESC')
-  if !@last_post || days_ago(@last_post.created_at) >= 1
+  if !@last_post || days_ago(@last_post.created_at) >= 1 || DEBUG_MODE
     haml :new, :layout => false
   else
     redirect '/home'
