@@ -4,7 +4,7 @@
 %h2= @listing
 
 - if @posts.empty?
-  %img{:src => '/img/generic/nah.png', :class => 'nah'}
+  %img{:src => '/img/generic/nah.png', :class => 'nah', :alt => 'Nothing to see here'}
 
 %ul 
   - for post in @posts
