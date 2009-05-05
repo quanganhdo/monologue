@@ -15,8 +15,15 @@
       #postbox
         %form{:method => 'POST', :action => '/new'}
           %span#count.normal 140
+          
           %label{:for => 'content'} What have you done today?
           %textarea{:name => 'content', :id => 'content', :rows => 3, :cols => 60}
           %br
+          
+          %label How do they make you feel?
+          #emopicker
+            - for emo in EMO
+              %img{:alt => emo, :src => "/img/emo/#{emo}.png"}
+          
           %input{:type => 'submit', :id => 'submit', :value => 'Submit'}
           %a{:href => '/home', :title => 'View all entries'} or view all entries

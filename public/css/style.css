@@ -80,11 +80,11 @@ h1 a {
 	font-weight: normal;
 }
 #postbox {
-	background: #e4f2fd url(../img/form-top.png) top left no-repeat;
+	background: #e4f2fd url(../img/generic/form-top.png) top left no-repeat;
 	margin-top: 12px;
 }
 #postbox form {
-	background: url(../img/form-btm.png) bottom left no-repeat;
+	background: url(../img/generic/form-btm.png) bottom left no-repeat;
 	padding: 22px 0 22px 22px;
 	position: relative;
 }
@@ -103,7 +103,7 @@ h1 a {
 #postbox span.err {
 	color: #D40D12;
 }
-#postbox textarea#content {
+#postbox textarea#content, #postbox div#emopicker {
 	width: 678px;
 	height: 75px;
 	border: 1px solid #c6d9e9;
@@ -111,6 +111,19 @@ h1 a {
 	padding: 2px;
 	font: 1.4em/1.2em "Lucida Grande",Verdana,"Bitstream Vera Sans",Arial,sans-serif;
 	}
+#postbox div#emopicker {
+	background-color: #FFFFFF;
+	height: 56px !important;
+}
+#postbox div#emopicker img {
+	cursor: hand;
+	padding: 2px;
+	margin-left: 28px;
+	margin-right: 28px;
+}
+#postbox div#emopicker img.selected {
+	background-color: #6688AA;
+}
 #postbox label {
 	color: #333;
 	display: block;
@@ -139,6 +152,7 @@ h1 a {
 #main ul {
 	list-style: none;
 	margin-top: 16px;
+	margin-left: 70px;
 }
 #main h2 {
 	margin-top: 4px;
@@ -238,13 +252,13 @@ h2 img {
 }
 h2 .rss {
 	float: none;
-	background: url(../img/feed12x12.png) center left no-repeat;
+	background: url(../img/generic/feed12x12.png) center left no-repeat;
 	padding-top: 0;
 	padding-left: 16px;
 }
 .rss {
 	float: right;
-	background: url(../img/feed.png) bottom left no-repeat;
+	background: url(../img/generic/feed.png) bottom left no-repeat;
 	padding-left: 14px;
 	font-size: 0.8em;
 	font-weight: normal;
@@ -252,7 +266,7 @@ h2 .rss {
 	line-height: 1em;
 }
 .allrss {
-	background: url(../img/feed.png) center left no-repeat;
+	background: url(../img/generic/feed.png) center left no-repeat;
 	padding-left: 14px;
 }
 #sidebar a:hover {
@@ -291,6 +305,7 @@ h2 .rss {
 #main .post ul {
 	list-style: none;
 	margin-top: 16px;
+	margin-left: 70px;
 }
 #main ul ul,
 #main .post ul {

@@ -4,6 +4,9 @@ require 'active_record'
 
 # config
 DEBUG_MODE = 1
+HTML_ESCAPE = {'&' => '&amp;', '<' => '&lt;', '>' => '&gt;', '"' => '&quot;', "'" => '&#039;'}
+EMO = %w{cry misdoubt rockn_roll smile unhappy wicked};
+
 mime :json, "application/json"
 
 # create db if needed
@@ -120,9 +123,8 @@ helpers do
   end
   
   # escape html
-  def h text
-    html_escape = {'&' => '&amp;', '<' => '&lt;', '>' => '&gt;', '"' => '&quot;', "'" => '&#039;'}
-    text.to_s.gsub(/[\"><&]/) { |s| html_escape[s] }
+  def h text    
+    text.to_s.gsub(/[\"><&]/) { |s| HTML_ESCAPE[s] }
     text
   end
 end
