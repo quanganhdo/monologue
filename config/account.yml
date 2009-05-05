@@ -1,0 +1,6 @@
+development:
+    username: admin
+    password: c0b6725b3c74b5eecd6662e8d1c75dc3
+production:
+    username: admin
+    password: 65f3d54477faa07b3f1b041e5d7f8710
