@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'sinatra'
 require 'active_record'
+require 'digest/md5'
 
 mime :json, "application/json"
 
@@ -11,6 +12,8 @@ configure do
   HTML_ESCAPE = {'&' => '&amp;', '<' => '&lt;', '>' => '&gt;', '"' => '&quot;', "'" => '&#039;'}
   EMO = %w{cry misdoubt rockn_roll smile unhappy wicked}
   DEFAULT_EMO = 'misdoubt'
+  
+  SECRET = 'whatever happened, happened'
   
   db_config = YAML.load(File.read('config/database.yml'))
   CONNECTION = development? ? db_config['development'] : db_config['production']
@@ -147,13 +150,13 @@ helpers do
   # basic auth
   def protected!
     response['WWW-Authenticate'] = %(Basic realm="Identify yourself") and \
-    throw(:halt, [401, "Not authorized\n"]) and \
+    throw(:halt, [401, "Access Denied\n"]) and \
     return unless authorized?
   end
 
   def authorized?
     @auth ||=  Rack::Auth::Basic::Request.new(request.env)
-    @auth.provided? && @auth.basic? && @auth.credentials && @auth.credentials == [ACCOUNT['username'], ACCOUNT['password']]
+    @auth.provided? && @auth.basic? && @auth.credentials && @auth.credentials[0] == ACCOUNT['username'] && Digest::MD5.hexdigest(SECRET + @auth.credentials[1]) == ACCOUNT['password']
   end
 
   # when did you make your last post?
