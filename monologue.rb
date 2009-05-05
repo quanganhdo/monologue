@@ -112,6 +112,13 @@ delete '/delete' do
   end
 end
 
+# browse by emo
+# most recent 7 posts only
+get '/:emo/days' do
+  @posts = Post.find(:all, :limit => 7, :conditions => "emo = '#{params[:emo]}'", :order => 'created_at DESC')
+  haml :emo
+end
+
 # both helper and processing helper
 def days_ago timestamp, verbose = false
   seconds = (Time.now - timestamp).abs

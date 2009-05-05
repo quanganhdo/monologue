@@ -1,5 +1,5 @@
-%script{:type => 'text/javascript', :src => '../js/delete.js'}
-%script{:type => 'text/javascript', :src => '../js/humanmsg.js'}
+%script{:type => 'text/javascript', :src => '/js/delete.js'}
+%script{:type => 'text/javascript', :src => '/js/humanmsg.js'}
 
 %h2
   = nice_time @post.created_at
@@ -14,7 +14,9 @@
   %a[@post, :delete]{:href => '#', :title => 'Delete this entry'} &times;
 %ul 
   %li
-    %img.emo2{:width => 48, :height => 48, :alt => @post.emo, :src => "/img/emo/#{@post.emo}.png"}
+    %a{:href => "/#{@post.emo}/days", :title => "View your most recent #{@post.emo} days"}
+      %img.emo2{:width => 48, :height => 48, :alt => @post.emo, :src => "/img/emo/#{@post.emo}.png"}
+      
     %h4
     .postcontent
       %p= @post.content

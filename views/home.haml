@@ -1,12 +1,14 @@
-%script{:type => 'text/javascript', :src => 'js/delete.js'}
-%script{:type => 'text/javascript', :src => 'js/humanmsg.js'}
+%script{:type => 'text/javascript', :src => '/js/delete.js'}
+%script{:type => 'text/javascript', :src => '/js/humanmsg.js'}
 
 %h2 What you've done in the last 7 days
 
 %ul 
   - for post in @posts
     %li[post]
-      %img.emo2{:width => 48, :height => 48, :alt => post.emo, :src => "/img/emo/#{post.emo}.png"}
+      %a{:href => "/#{post.emo}/days", :title => "View your most recent #{post.emo} days"}
+        %img.emo2{:width => 48, :height => 48, :alt => post.emo, :src => "/img/emo/#{post.emo}.png"}
+      
       %h4
         %span.meta
           == Posted on #{nice_time post.created_at, true}
@@ -19,6 +21,8 @@
           &middot;
           
           %a[post, :delete]{:href => '#', :title => 'Delete this entry'} &times;
+
       .postcontent
         %p= post.content
+
       .bottom_of_entry
