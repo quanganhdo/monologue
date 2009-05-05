@@ -4,10 +4,12 @@ require 'active_record'
 require 'logger'
 
 # config
-DEBUG = false
-HTML_ESCAPE = {'&' => '&amp;', '<' => '&lt;', '>' => '&gt;', '"' => '&quot;', "'" => '&#039;'}
-EMO = %w{cry misdoubt rockn_roll smile unhappy wicked};
-DEFAULT_EMO = 'misdoubt'
+unless defined? DEBUG
+  DEBUG = false
+  HTML_ESCAPE = {'&' => '&amp;', '<' => '&lt;', '>' => '&gt;', '"' => '&quot;', "'" => '&#039;'}
+  EMO = %w{cry misdoubt rockn_roll smile unhappy wicked};
+  DEFAULT_EMO = 'misdoubt'
+end
 
 mime :json, "application/json"
 
@@ -130,7 +132,7 @@ get '/:no/weeks?/ago' do
   start_timestamp = Time.now - params[:no].to_i * 60 * 60 * 24 * 7;
   end_timestamp = start_timestamp + 60 * 60 * 24 * 7;
   @posts = Post.find(:all, :limit => 7, :conditions => ['created_at BETWEEN ? AND ?', start_timestamp, end_timestamp], :order => 'created_at DESC').reverse
-  @listing = "What you did #{params[:no]} week#{params[:no].to_i > 1 ? 's' : ''} ago"
+  @listing = "What you did #{params[:no].to_i > 1 ? "#{params[:no]} weeks ago" : 'last week'}"
   haml :listing
 end
 
@@ -140,10 +142,6 @@ def days_ago timestamp, verbose = false
   seconds = (Time.now - timestamp).abs
   days = (seconds / 60 / 60 / 24).round
   verbose ? "#{days} day#{days > 1 ? 's' : ''}" : days
-end
-
-def to_sql timestamp
-  timestamp.strftime('%d-%m-%Y %H:%M:%S')
 end
 
 helpers do
