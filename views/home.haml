@@ -1,12 +1,12 @@
 %script{:type => 'text/javascript', :src => '/js/humanmsg.js'}
 %script{:type => 'text/javascript', :src => '/js/delete.js'}
 
-%h2 What you've done in the last 7 days
+%h2 Latest entries
 
 %ul 
   - for post in @posts
     %li[post]
-      %a{:href => "/#{post.emo}/days", :title => "View your most recent #{post.emo} days"}
+      %a{:href => "/#{post.emo}/days", :title => "View your most recent 7 #{post.emo} days"}
         %img.emo2{:width => 48, :height => 48, :alt => post.emo, :src => "/img/emo/#{post.emo}.png"}
       
       %h4
