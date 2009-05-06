@@ -38,6 +38,13 @@
               %li
                 %a{:href => '/4/weeks/ago', :title => 'What were you up to 4 weeks ago?'} 4 weeks ago
 
+          %li
+            %h2 Stats
+            %ul
+              %li
+                %strong== #{@count} 
+                == entr#{@count > 1 ? 'ies' : 'y'} to date
+          
           %li.credits
             %p
               monologue by

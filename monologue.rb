@@ -54,6 +54,7 @@ end
 # lock everything
 before do
   protected!
+  @count = Post.count
 end
 
 # entry point
