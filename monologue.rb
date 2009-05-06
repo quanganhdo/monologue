@@ -155,8 +155,8 @@ end
 
 # random listing
 get '/random' do
-  @posts = {}
-  @listing = ''
+  @posts = Post.find(:all, :order => 'RANDOM()', :limit => 3)
+
   haml :random
 end
 
