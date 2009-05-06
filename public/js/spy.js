@@ -38,6 +38,11 @@ $.fn.spy = function(settings) {
 			return 0;
 	}
 		
+	spy.timestamp = function() {
+	    var now = new Date();
+		return Math.floor((now - spy.epoch) / 1000);
+	}
+	
 	spy.parse = function(e, r) {
 		spy.parsing = 1; // flag to stop pull via ajax
 		if (o.method == 'html') {
@@ -109,7 +114,7 @@ $.fn.spy = function(settings) {
 		method: (settings.method || 'html').toLowerCase(),
 		push: (settings.push || spy.push),
 		fadeInSpeed: (settings.fadeInSpeed || 'slow'), // 1400 = crawl
-		page: settings.page,
+		timestamp: (settings.timestamp || spy.timestamp),
 		isDupe: (settings.isDupe || spy.isDupe)
 	};
 
@@ -117,14 +122,14 @@ $.fn.spy = function(settings) {
 
 	return this.each(function() {
 		var e = this;
-	    var page = o.page.call();
+	    var timestamp = o.timestamp.call();
 		var lr = ''; // last ajax return
 		spy.ajaxTimer = window.setInterval(function() {
 			if (spyRunning && (!spy.parsing)) {
-				$.post(o.ajax, { 'page': page }, function(r) {
+				$.post(o.ajax, { 'timestamp': timestamp }, function(r) {
 					spy.parse(e, r);
 				});
-			    page = o.page.call();
+			    timestamp = o.timestamp.call();
 			}	
 		}, o.timeout);
 	});

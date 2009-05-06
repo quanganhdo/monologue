@@ -153,22 +153,20 @@ get '/:no/weeks?/ago' do
   haml :listing
 end
 
-# read all
-get '/read/all' do
+# random listing
+get '/random' do
   @posts = {}
   @listing = ''
-  haml :read
+  haml :random
 end
 
-# read page
-post '/read' do
+# random entries via json
+post '/random' do
   content_type :json
   
-  page_num = params[:page].to_i - 1
-  page_size = 28
-  @posts = Post.find(:all, :order => 'created_at ASC', :limit => page_size, :offset => page_num * page_size)
+  posts = Post.find(:all, :order => 'RANDOM()', :limit => 7)
   
-  @posts.empty? ? [{:stop => 'now'}].to_json : @posts.to_json
+  posts.to_json
 end
 
 # when did you make your last post?
@@ -199,6 +197,17 @@ helpers do
   # escape html
   include Rack::Utils
   alias_method :h, :escape_html
+end
+
+# for production use
+configure :production do
+  not_found do
+    'This is nowhere to be found'
+  end
+  
+  error do
+    'Sorry there was a nasty error - ' + request.env['sinatra.error'].name
+  end
 end
 
 # for development purpose only
