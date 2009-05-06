@@ -24,7 +24,7 @@ configure do
   begin
     ActiveRecord::Schema.define do
       create_table :posts do |t|
-        t.string :content, :null => false, :limit => 140
+        t.text :content, :null => false
         t.string :emo, :null => false, :default => DEFAULT_EMO
         t.timestamps
       end
@@ -36,7 +36,7 @@ end
 
 # model
 class Post < ActiveRecord::Base
-  validates_length_of :content, :in => 1..140
+  validates_presence_of :content
   validates_inclusion_of :emo, :in => EMO
   validate :valid_time?
   
@@ -75,9 +75,9 @@ end
 
 # create a new post
 post '/new' do
-  @post = Post.new(:content => params[:content].gsub(/\n/, ' '), :emo => params[:emo])
-  
-  if @post.save
+  post = Post.new(:content => params[:content].gsub(/\n/, ' '), :emo => params[:emo])
+
+  if post.save
     redirect '/home'
   else
     redirect '/'
@@ -118,7 +118,7 @@ end
 
 # edit existing post
 post '/edit/:id' do
-  if Post.update(params[:id], :content => params[:content], :emo => params[:emo])
+  if Post.update(params[:id], :content => params[:content].gsub(/\n/, ' '), :emo => params[:emo])
     redirect "/#{params[:id]}"
   end
 end
