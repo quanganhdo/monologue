@@ -153,6 +153,24 @@ get '/:no/weeks?/ago' do
   haml :listing
 end
 
+# read all
+get '/read/all' do
+  @posts = {}
+  @listing = ''
+  haml :read
+end
+
+# read page
+post '/read' do
+  content_type :json
+  
+  page_num = params[:page].to_i - 1
+  page_size = 28
+  @posts = Post.find(:all, :order => 'created_at ASC', :limit => page_size, :offset => page_num * page_size)
+  
+  @posts.empty? ? [{:stop => 'now'}].to_json : @posts.to_json
+end
+
 # when did you make your last post?
 def days_ago timestamp, verbose = false
   seconds = (Time.now - timestamp).abs
@@ -200,7 +218,7 @@ get '/viral/outbreak' do
   buckets = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.".split('. ')
   timemachine = Time.now
   
-  1.upto 100 do |i|
+  1.upto 50 do |i|
     posts << {
       :content => buckets[rand(buckets.length)],
       :emo => EMO[rand(EMO.length)],
