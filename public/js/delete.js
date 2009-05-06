@@ -1,6 +1,6 @@
 $(function() {
 	$('.delete_post').click(function() {
-		if (confirm('Delete this post permanently?')) {
+		if (confirm('Delete this entry permanently?')) {
 			var id = $(this).attr('id').match(/delete_post_([0-9]*)/)[1];
 			
 			$.post('/delete', {id: id, _method: 'delete'}, function(data) {
