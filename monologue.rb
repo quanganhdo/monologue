@@ -39,7 +39,7 @@ end
 class Post < ActiveRecord::Base
   validates_presence_of :content
   validates_inclusion_of :emo, :in => EMO
-  validate_on_create :valid_time?
+  validate_on_create :valid_time? unless development?
   
   private
   
