@@ -19,7 +19,7 @@ configure do
   db_config = YAML.load(File.read('config/database.yml'))
   CONNECTION = development? ? db_config['development'] : db_config['production']
   ActiveRecord::Base.establish_connection CONNECTION
-  ActiveRecord::Base.logger = Logger.new(STDERR) 
+  ActiveRecord::Base.logger = Logger.new(STDERR) if DEBUG
   
   acc_config = YAML.load(File.read('config/account.yml'))
   ACCOUNT = development? ? acc_config['development'] : acc_config['production']
@@ -41,7 +41,7 @@ end
 class Post < ActiveRecord::Base
   validates_presence_of :content
   validates_inclusion_of :emo, :in => EMO
-  validate :valid_time?
+  validate_on_create :valid_time?
   
   private
   
@@ -122,8 +122,11 @@ end
 
 # edit existing post
 post '/edit/:id' do
-  if Post.update(params[:id], :content => params[:content].gsub(/\n/, ' '), :emo => params[:emo])
+  post = Post.find(params[:id])
+  if post.update_attributes(:content => params[:content].gsub(/\n/, ' '), :emo => params[:emo])
     redirect "/#{params[:id]}"
+  else
+    redirect "/edit/#{params[:id]}", 303
   end
 end
 
