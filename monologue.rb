@@ -9,8 +9,6 @@ mime :json, "application/json"
 
 # prepare for battle
 configure do 
-  DEBUG = development? ? true : false
-  
   EMO = %w{cry misdoubt rockn_roll smile unhappy wicked}
   DEFAULT_EMO = 'misdoubt'
   
@@ -19,7 +17,7 @@ configure do
   db_config = YAML.load(File.read('config/database.yml'))
   CONNECTION = development? ? db_config['development'] : db_config['production']
   ActiveRecord::Base.establish_connection CONNECTION
-  ActiveRecord::Base.logger = Logger.new(STDERR) if DEBUG
+  ActiveRecord::Base.logger = Logger.new(STDERR) if ENV['DEBUG']
   
   acc_config = YAML.load(File.read('config/account.yml'))
   ACCOUNT = development? ? acc_config['development'] : acc_config['production']
@@ -47,7 +45,7 @@ class Post < ActiveRecord::Base
   
   def valid_time?
     @last_post = Post.find(:first, :order => 'created_at DESC')
-    if @last_post && days_ago(@last_post.created_at) < 1 && !DEBUG
+    if @last_post && days_ago(@last_post.created_at) < 1 && !ENV['DEBUG']
       # this has nothing to do w/ content
       errors.add :content
     end
@@ -67,7 +65,7 @@ end
   get path do
     @last_post = Post.find(:first, :order => 'created_at DESC')
     
-    if !@last_post || days_ago(@last_post.created_at) >= 1 || DEBUG
+    if !@last_post || days_ago(@last_post.created_at) >= 1 || ENV['DEBUG']
       haml :new, :layout => false
     elsif request.referer != '/'
       haml :already, :layout => false
