@@ -1,0 +1,28 @@
+%script{:type => 'text/javascript', :src => '/js/humanmsg.js'}
+%script{:type => 'text/javascript', :src => '/js/spy.js'}
+%script{:type => 'text/javascript', :src => '/js/random.js'}
+
+%h2 Take a glance at what you have written&hellip;
+
+.navigation
+  %p{:style => 'text-align: right'}
+    %a#pause{:href => '#', :title => 'Pause'} Pause
+    %a#resume{:href => '#', :title => 'Resume', :style => 'display: none'} Resume
+
+%ul#reader
+  - for post in @posts
+    %li[post]
+      %a{:href => "/#{post.emo}/days", :title => "View your most recent 7 #{post.emo} days"}
+        %img.emo2{:width => 48, :height => 48, :alt => post.emo, :src => "/img/emo/#{post.emo}.png"}
+      
+      %h4
+        %span.meta
+          == Posted on #{post.created_at.strftime('%Y/%m/%d')}
+          &middot;
+          
+          %a{:href => "/#{post.id}", :title => 'Permalink to this entry'} # 
+
+      .postcontent
+        %p= post.content
+
+      .bottom_of_entry
