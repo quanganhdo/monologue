@@ -1,7 +1,9 @@
 require 'rubygems'
 require 'sinatra'
+require 'haml'
 require 'active_record'
 require 'digest/md5'
+require 'logger'
 
 mime :json, "application/json"
 
@@ -17,6 +19,7 @@ configure do
   db_config = YAML.load(File.read('config/database.yml'))
   CONNECTION = development? ? db_config['development'] : db_config['production']
   ActiveRecord::Base.establish_connection CONNECTION
+  ActiveRecord::Base.logger = Logger.new(STDERR) 
   
   acc_config = YAML.load(File.read('config/account.yml'))
   ACCOUNT = development? ? acc_config['development'] : acc_config['production']

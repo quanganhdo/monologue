@@ -27,6 +27,7 @@
               %img.emo{:alt => emo, :src => "/img/emo/#{emo}.png", :class => emo.eql?(@post.emo) ? 'selected' : '', :id => emo}
           
           %input{:type => 'hidden', :name => 'emo', :id => 'emo', :value => @post.emo}
+          %input{:type => 'hidden', :name => 'id', :id => @post.id, :value => @post.id}
           
           %input{:type => 'submit', :id => 'submit', :value => 'Save'}
           %a{:href => @back, :title => 'Cancel editing'} or cancel editing
