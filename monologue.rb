@@ -120,10 +120,11 @@ end
 
 # edit existing post
 post '/edit/:id' do
-  post = Post.find(params[:id])
-  if post.update_attributes(:content => params[:content].gsub(/\n/, ' '), :emo => params[:emo])
+  if Post.update(params[:id], :content => params[:content].gsub(/\n/, ' '), :emo => params[:emo])
     redirect "/#{params[:id]}"
   else
+    # reset to GET
+    # http://www.gittr.com/index.php/archive/details-of-sinatras-redirect-helper/
     redirect "/edit/#{params[:id]}", 303
   end
 end
